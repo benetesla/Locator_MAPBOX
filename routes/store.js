@@ -1,7 +1,6 @@
 const express = require('express');
+const { getStores } = require('../controllers/controllers');
 
 const router = express.Router();
-router.get('/', (req, res) => {
-    res.status(200).json({ msg: 'Welcome to the Store API' });
-});
+router.route('/').get(getStores);
 module.exports = router;
