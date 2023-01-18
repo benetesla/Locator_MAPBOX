@@ -12,7 +12,10 @@ app.use(express.json());
 //routes
 app.use('/api/v1/store', require('./routes/store'));
 //connect to database
-ConnectDB().then(() => console.log('MongoDB Connected...')).catch(err => console.log(err));
+ConnectDB().then(() =>
+    console.log('MongoDB Connected...')
+).catch(err =>
+    console.log(err));
 
 const PORT = process.env.PORT || 5000;
 
