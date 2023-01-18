@@ -9,6 +9,8 @@ const app = express();
 //cors and json
 app.use(cors());
 app.use(express.json());
+//static folder
+app.use(express.static(path.join(__dirname, 'public')));
 //routes
 app.use('/api/v1/store', require('./routes/store'));
 //connect to database
