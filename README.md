@@ -32,10 +32,13 @@ O GeoJSON é um formato padrão aberto projetado para representar recursos geogr
 
 ## Instalação
 
-Instale MAPBOX_GEO com npm
+Instale 
+MAPBOX com npm
 
 ```bash
-  npm install MAPBOX_GEO
-  cd MAPBOX_GEO
+  npm install 
+MAPBOX
+  cd 
+MAPBOX
 ```
     
