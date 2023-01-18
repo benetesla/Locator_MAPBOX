@@ -8,9 +8,8 @@ const app = express();
 //cors and json
 app.use(cors());
 app.use(express.json());
-app.get('/api/v1/store', (req, res) => {
-    res.status(200).json({ msg: 'Welcome to the Store API' });
-});
+//routes
+app.use('/api/v1/store', require('./routes/store'));
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`));
