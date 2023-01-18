@@ -3,7 +3,7 @@ const NodeGeocoder = require('node-geocoder');
 const options = {
     provider: process.env.GEOCODER_PROVIDER || 'openstreetmap',
     httpAdapter: 'https',
-    fetch: customFetchImplementation,
+    //fetch: customFetchImplementation,
     apiKey: process.env.GEOCODER_API_KEY,
     formatter: null
 };
