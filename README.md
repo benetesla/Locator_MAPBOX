@@ -43,9 +43,7 @@ MAPBOX com npm
 
 ```bash
 git clone https://github.com/benetesla/MAPBOX.git
-  npm install 
-MAPBOX
-  cd 
-MAPBOX
+npm install MAPBOX
+cd MAPBOX
 ```
     
