@@ -1,61 +1,57 @@
-
-mapboxgl.accessToken =
-'pk.eyJ1IjoiYmVuZXRlc2xhIiwiYSI6ImNsZDI5cG5jdjAydWYzcHBnYTMza2oxMXUifQ.wWQIUwQ2kEnGt22_B5OdDw';
-const map = new mapboxgl.Map({
-container: 'map',
-style: 'mapbox://styles/mapbox/streets-v11',
-zoom: 9,
-center: [-71.157895, 42.707741]
+mapboxgl.accessToken ="seuToken aqui"
+    const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    zoom: 9,
+    center: [-71.157895, 42.707741]
 });
-function loadMap(){
-    mapboxgl.accessToken = 'pk.eyJ1IjoiYmVuZXRlc2xhIiwiYSI6ImNsZDI5cG5jdjAydWYzcHBnYTMza2oxMXUifQ.wWQIUwQ2kEnGt22_B5OdDw';
-     const map = new mapboxgl.Map({
-        container: 'map',
-        center: [0, 0],
-        zoom: 2,
-        // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-        style: 'mapbox://styles/mapbox/streets-v12'
+//fetch stores from API
+
+async function getStores() {
+    const res = await fetch('/api/v1/store');
+    const data = await res.json();
+
+    const stores = data.data.map(store => {
+        return {
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [
+                    store.location.coordinates[0],
+                    store.location.coordinates[1]
+                ]
+            },
+            properties: {
+                storeId: store.storeId,
+                icon: 'shop'
+            }
+        };
     });
 
-    map.on('load', () => {
-        const width = 64; // The image will be 64 pixels square
-        const bytesPerPixel = 4; // Each pixel is represented by 4 bytes: red, green, blue, and alpha.
-        const data = new Uint8Array(width * width * bytesPerPixel);
+    loadMap(stores);
+}
 
-        for (let x = 0; x < width; x++) {
-            for (let y = 0; y < width; y++) {
-                const offset = (y * width + x) * bytesPerPixel;
-                data[offset + 0] = (y / width) * 255; // red
-                data[offset + 1] = (x / width) * 255; // green
-                data[offset + 2] = 128; // blue
-                data[offset + 3] = 255; // alpha
-            }
-        }
-
-        map.addImage('gradient', { width: width, height: width, data: data });
-
-        map.addSource('point', {
-            'type': 'geojson',
-            'data': {
-                'type': 'FeatureCollection',
-                'features': [
-                    {
-                        'type': 'Feature',
-                        'geometry': {
-                            'type': 'Point',
-                            'coordinates': [0, 0]
-                        }
-                    }
-                ]
-            }
-        });
+function loadMap() {
+    map.on('load', function () {
         map.addLayer({
-            'id': 'points',
-            'type': 'symbol',
-            'source': 'point',
-            'layout': {
-                'icon-image': 'gradient'
+            id: 'points',
+            type: 'symbol',
+            source: {
+                type: 'geojson',
+                data: {
+                    type: 'FeatureCollection',
+                    features: stores
+                }
+            },
+            layout: {
+                'icon-image': '{icon}-15',
+                'icon-size': 1.5,
+                'text-field': '{storeId}',
+                'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+                'text-offset': [0, 0.9],
+                'text-anchor': 'top'
             }
         });
     });
 }
+getStores();
