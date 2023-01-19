@@ -1,1 +1,3 @@
 node_modules 
+//env confi
+config/config.env
